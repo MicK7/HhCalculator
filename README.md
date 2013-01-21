@@ -1,0 +1,1 @@
+# HhCalculatorcompute d/D parametrization

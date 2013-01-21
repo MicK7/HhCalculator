@@ -1,0 +1,78 @@
+<ServerManagerConfiguration>
+<!-- This is the server manager configuration XML. It defines the interface to
+our new filter. As a rule of thumb, try to locate the configuration for
+a filter already in ParaView (in Servers/ServerManager/Resources/*.xml)
+that matches your filter and then model your xml on it -->
+    <ProxyGroup name="filters">
+        <SourceProxy name="HhCalculator" class="vtkHhCalculator" label="HhCalculator">
+            <Documentation
+            long_help=""
+            short_help="">
+            Compute d over D for a XR parametrization between lineUp and lineDown
+            </Documentation>
+
+            <InputProperty
+            name="input"
+            port_index="0"
+            command="SetInputConnection">
+                <ProxyGroupDomain name="groups">
+                    <Group name="sources"/>
+                    <Group name="filters"/>
+                </ProxyGroupDomain>
+                <DataTypeDomain name="input_type">
+                    <DataType value="vtkDataSet"/>
+                </DataTypeDomain>
+            </InputProperty>
+
+            <StringVectorProperty name="HubFileName"
+                                  animateable="0"
+                                  command="SetHubFileName"
+                                  number_of_elements="1"
+                                  >
+                <FileListDomain name="files" />
+                <Documentation>
+                This property specifies the file name for the Bottom line.
+                </Documentation>
+            </StringVectorProperty>
+
+            <StringVectorProperty name="ShroudFileName"
+                                  animateable="0"
+                                  command="SetShroudFileName"
+                                  number_of_elements="1"
+                                  >
+                <FileListDomain name="files" />
+                <Documentation>
+                This property specifies the file name for the Top line.
+                </Documentation>
+            </StringVectorProperty>
+
+            <DoubleVectorProperty name="Scaling Factor"
+                                  default_values="1000.0"
+                                  animateable="0"
+                                  command="SetScaling"
+                                  number_of_elements="1"
+                                  panel_visibility="advanced"
+                                  >
+                <!--<DoubleRangeDomain name="range" />-->
+                <Documentation>
+                This property specifies the scaling factor to use for flow mesh by comparison to  bottom and top lines that are in [mm]. If the CFD mesh is using [mm] then put 1.0 else if it is in [m] put 1000.0.
+                </Documentation>
+            </DoubleVectorProperty>
+
+            <DoubleVectorProperty name="Tolerance"
+                                  default_values="5.0e-4"
+                                  animateable="0"
+                                  command="SetTolerance"
+                                  number_of_elements="1"
+                                  panel_visibility="advanced"
+                                  >
+                <!--<DoubleRangeDomain name="range" />-->
+                <Documentation>
+                This property specifies a tolerance in distance computation close to boundary lines.
+                </Documentation>
+            </DoubleVectorProperty>
+
+        </SourceProxy>
+    </ProxyGroup>
+</ServerManagerConfiguration>
+
