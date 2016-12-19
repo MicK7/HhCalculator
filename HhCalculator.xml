@@ -12,7 +12,7 @@ that matches your filter and then model your xml on it -->
             </Documentation>
 
             <InputProperty
-            name="input"
+            name="Input"
             port_index="0"
             command="SetInputConnection">
                 <ProxyGroupDomain name="groups">
@@ -24,9 +24,9 @@ that matches your filter and then model your xml on it -->
                 </DataTypeDomain>
             </InputProperty>
 
-            <StringVectorProperty name="HubFileName"
+            <StringVectorProperty name="DownFileName"
                                   animateable="0"
-                                  command="SetHubFileName"
+                                  command="SetDownFileName"
                                   number_of_elements="1"
                                   >
                 <FileListDomain name="files" />
@@ -35,9 +35,9 @@ that matches your filter and then model your xml on it -->
                 </Documentation>
             </StringVectorProperty>
 
-            <StringVectorProperty name="ShroudFileName"
+            <StringVectorProperty name="TopFileName"
                                   animateable="0"
-                                  command="SetShroudFileName"
+                                  command="SetTopFileName"
                                   number_of_elements="1"
                                   >
                 <FileListDomain name="files" />

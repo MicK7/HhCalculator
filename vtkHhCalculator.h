@@ -40,7 +40,6 @@
 #include "vtkKdTreePointLocator.h"
 #include "vtkSmartPointer.h"
 #include "vtkPoints.h"
-
 //
 // Helper class
 class vtkKdTree2dPointLocator : public vtkKdTreePointLocator
@@ -74,11 +73,11 @@ public:
     vtkSetMacro(Scaling, double);
     vtkGetMacro(Scaling, double);
 
-    vtkGetStringMacro(HubFileName);
-    vtkSetStringMacro(HubFileName);
+    vtkGetStringMacro(DownFileName);
+    vtkSetStringMacro(DownFileName);
 
-    vtkGetStringMacro(ShroudFileName);
-    vtkSetStringMacro(ShroudFileName);
+    vtkGetStringMacro(TopFileName);
+    vtkSetStringMacro(TopFileName);
 
 protected:
 
@@ -96,16 +95,13 @@ private:
     vtkHhCalculator(const vtkHhCalculator&);
     bool operator=(const vtkHhCalculator&);
 
-    char* HubFileName;
-    char* ShroudFileName;
+    char* DownFileName;
+    char* TopFileName;
     //
     char* LastLineAFile;
     char* LastLineBFile;
     double Tolerance;
     double Scaling;
-    //
-    vtkSmartPointer<vtkKdTree2dPointLocator> pointLocatorA;
-    vtkSmartPointer<vtkKdTree2dPointLocator> pointLocatorB;
     //
     vtkSmartPointer<vtkPolyData> lineA;
     vtkSmartPointer<vtkPolyData> lineB;
