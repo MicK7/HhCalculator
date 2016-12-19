@@ -716,7 +716,7 @@ int vtkHhCalculator::RequestData(vtkInformation *request,
     if (!Dispatcher::Execute(pts, worker))
     {
         // If Execute() fails, it means the dispatch failed due to an
-        // unsupported array type. In this case, it’s likely that the magnitude
+        // unsupported array type. In this case, it’s likely that the points
         // array is using an integral type. This is an uncommon case, so we won’t
         // generate a fast path for these, but instead call an instantiation of
         // Through the use of vtkDataArrayAccessor, this falls back to using the
