@@ -22,7 +22,7 @@
  * 2D curves in meridional plane are defined through a point based file
  *
  * @warning
- *   ...
+ *   works only with X-axis as revolution axis
  *
  * @par Thanks:
  * Thanks to .
