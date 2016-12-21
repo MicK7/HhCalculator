@@ -205,7 +205,7 @@ int vtkHhCalculator::UpdateLocators()
             }
             normal[0] /= norm;
             normal[1] /= norm;
-            this->NormalsLineA->SetTuple(ii, normal);
+            this->NormalsLineA->SetTypedTuple(ii, normal);
         }
 
         this->LastLineAFile = this->DownFileName;
@@ -258,7 +258,7 @@ int vtkHhCalculator::UpdateLocators()
             }
             normal[0] /= norm;
             normal[1] /= norm;
-            this->NormalsLineB->SetTuple(ii, normal);
+            this->NormalsLineB->SetTypedTuple(ii, normal);
         }
         this->LastLineBFile = this->TopFileName;
     }
@@ -582,6 +582,8 @@ private:
     {
         vtkSmartPointer<vtkKdTree2dPointLocator> pointLocatorA;
         vtkSmartPointer<vtkKdTree2dPointLocator> pointLocatorB;
+        vtkSmartPointer<vtkPolyData> lineA;
+        vtkSmartPointer<vtkPolyData> lineB;
     };
 
     typedef vtkSMPThreadLocal<ThreadLocalWorkSpace> TLS_t;
