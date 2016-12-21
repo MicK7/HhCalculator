@@ -305,11 +305,15 @@ public:
         ThreadLocalWorkSpace &ws = this->tlws.Local();
         ws.pointLocatorA = vtkSmartPointer<vtkKdTree2dPointLocator>::New();
         ws.pointLocatorB = vtkSmartPointer<vtkKdTree2dPointLocator>::New();
+        ws.lineA = vtkSmartPointer<vtkPolyData>::New();
+        ws.lineA->DeepCopy(this->lineA);
+        ws.lineB = vtkSmartPointer<vtkPolyData>::New();
+        ws.lineB->DeepCopy(this->lineB);
         //
-        ws.pointLocatorA->SetDataSet(this->lineA);
+        ws.pointLocatorA->SetDataSet(ws.lineA);
         ws.pointLocatorA->Build2dLocator();
         //
-        ws.pointLocatorB->SetDataSet(this->lineB);
+        ws.pointLocatorB->SetDataSet(ws.lineB);
         ws.pointLocatorB->Build2dLocator();
     }
 
@@ -357,7 +361,7 @@ public:
         int nPtsA;
         int nPtsB;
         const double Ldim = this->Scaling;
-        double Tolerance = this->Tolerance;
+        const double Tolerance = this->Tolerance;
         //
         nPtsA = this->lineA->GetNumberOfPoints();
         nPtsB = this->lineB->GetNumberOfPoints();
@@ -371,8 +375,8 @@ public:
             currentPoint[0] = pt.Get(tupleIdx, 0);
             currentPoint[1] = pt.Get(tupleIdx, 1);
             currentPoint[2] = pt.Get(tupleIdx, 2);
-            currentXRPoint[0] = currentPoint[0] * Ldim;
-            currentXRPoint[1] = std::sqrt(currentPoint[1] * currentPoint[1] + currentPoint[2] * currentPoint[2]);
+            currentXRPoint[0] = Ldim * currentPoint[0];
+            currentXRPoint[1] = Ldim * std::sqrt(currentPoint[1]*currentPoint[1]+currentPoint[2]*currentPoint[2]);
             //
             vtkIdType closestPointAId = pointLocatorA->FindClosestPoint(currentXRPoint);
             vtkIdType closestPointBId = pointLocatorB->FindClosestPoint(currentXRPoint);
@@ -410,8 +414,8 @@ public:
             tA_seg0 = computeCurveIndex(pt_p_seg0, pt_m_seg0, currentXRPoint);
             tA_seg1 = computeCurveIndex(pt_p_seg1, pt_m_seg1, currentXRPoint);
             //
-            this->NormalsLineA->GetTuple(Seg0PointMId, norms_seg0);
-            this->NormalsLineA->GetTuple(Seg1PointMId, norms_seg1);
+            this->NormalsLineA->GetTypedTuple(Seg0PointMId, norms_seg0);
+            this->NormalsLineA->GetTypedTuple(Seg1PointMId, norms_seg1);
 
             // For segment 0
             distance_proj0 = norms_seg0[0] * (currentXRPoint[0] - closestPointA[0])
@@ -444,7 +448,7 @@ public:
             if (distance_seg0 < distance_seg1)
             {
                 signed_distanceA = distance_seg0;
-                if (distance_seg0 < this->Tolerance)
+                if (distance_seg0 < Tolerance)
                 {
                     signed_distanceA = 0.0;
                 }
@@ -456,7 +460,7 @@ public:
             else
             {
                 signed_distanceA = distance_seg1;
-                if (distance_seg1 < this->Tolerance)
+                if (distance_seg1 < Tolerance)
                 {
                     signed_distanceA = 0.0;
                 }
@@ -501,8 +505,8 @@ public:
             tB_seg0 = computeCurveIndex(pt_p_seg0, pt_m_seg0, currentXRPoint);
             tB_seg1 = computeCurveIndex(pt_p_seg1, pt_m_seg1, currentXRPoint);
             //
-            this->NormalsLineB->GetTuple(Seg0PointMId, norms_seg0);
-            this->NormalsLineB->GetTuple(Seg1PointMId, norms_seg1);
+            this->NormalsLineB->GetTypedTuple(Seg0PointMId, norms_seg0);
+            this->NormalsLineB->GetTypedTuple(Seg1PointMId, norms_seg1);
             // For segment 0
             distance_proj0 = norms_seg0[0] * (currentXRPoint[0] - closestPointB[0])
                              + norms_seg0[1] * (currentXRPoint[1] - closestPointB[1]);
@@ -533,7 +537,7 @@ public:
             if (distance_seg0 < distance_seg1)
             {
                 signed_distanceB = distance_seg0;
-                if (distance_seg0 < this->Tolerance)
+                if (distance_seg0 < Tolerance)
                 {
                     signed_distanceB = 0.0;
                 }
@@ -545,7 +549,7 @@ public:
             else
             {
                 signed_distanceB = distance_seg1;
-                if (distance_seg1 < this->Tolerance)
+                if (distance_seg1 < Tolerance)
                 {
                     signed_distanceB = 0.0;
                 }
