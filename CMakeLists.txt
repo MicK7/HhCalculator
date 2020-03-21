@@ -1,18 +1,30 @@
-cmake_minimum_required(VERSION 2.8.8 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.8 FATAL_ERROR)
+
+set(PluginName HhCalculator)
+project(${PluginName})
+
+include(GNUInstallDirs)
+
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/${CMAKE_INSTALL_BINDIR}")
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/${CMAKE_INSTALL_LIBDIR}")
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/${CMAKE_INSTALL_LIBDIR}")
+set(BUILD_SHARED_LIBS ON)
 
 if (NOT ParaView_BINARY_DIR)
   find_package(ParaView REQUIRED)
-  include(${PARAVIEW_USE_FILE})
 endif()
 
-include(ParaViewPlugins)
+# Scan the plugin file in order to set up internal data structures for building
+# plugins.
+paraview_plugin_scan(
+  # The `paraview.plugin` file describing the plugin.
+  PLUGIN_FILES "${CMAKE_CURRENT_SOURCE_DIR}/Plugin/paraview.plugin"
+  # A result variable for the (enabled) plugins found during the scan.
+  PROVIDES_PLUGINS plugins
+  # Enable plugins during this scan by default.
+  ENABLE_BY_DEFAULT ON)
 
-SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++0x")
-# create a paraview plugin containing server manager xml and the server
-# manager classes to build
-# this plugin can be loaded on the server side
-
-add_paraview_plugin(HhCalculator "1.0"
-  SERVER_MANAGER_XML HhCalculator.xml
-  SERVER_MANAGER_SOURCES vtkHhCalculator.cxx)
-
+paraview_plugin_build(
+  PLUGINS ${plugins})

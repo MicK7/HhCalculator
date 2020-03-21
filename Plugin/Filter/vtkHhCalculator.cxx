@@ -12,7 +12,7 @@
      PURPOSE.  See the above copyright notice for more information.
 
 =========================================================================*/
-//  Copyright 2012-2016 Mickael Philit.
+//  Copyright 2012-2020 Mickael Philit.
 
 #include "vtkHhCalculator.h"
 
